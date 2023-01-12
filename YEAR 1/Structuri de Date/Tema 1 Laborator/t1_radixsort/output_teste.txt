@@ -1,0 +1,53 @@
+T = 35
+
+N = 100, MAX = 100
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 1000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 10000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 100000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 1000000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 10000000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 100
+Sortat incorect!
+N = 1000, MAX = 1000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 10000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 100000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 1000000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 10000000
+Sortat corect! Durata: 0.01564931869506836 secunde
+N = 10000, MAX = 100
+Sortat incorect!
+N = 10000, MAX = 1000
+Sortat incorect!
+N = 10000, MAX = 10000
+Sortat incorect!
+N = 10000, MAX = 100000
+Sortat corect! Durata: 0.0 secunde
+N = 10000, MAX = 1000000
+Sortat corect! Durata: 0.01563429832458496 secunde
+N = 10000, MAX = 10000000
+Sortat corect! Durata: 0.02682042121887207 secunde
+N = 100000, MAX = 100
+Sortat incorect!
+N = 100000, MAX = 1000
+Sortat incorect!
+N = 100000, MAX = 10000
+Sortat incorect!
+N = 100000, MAX = 100000
+Sortat incorect!
+N = 100000, MAX = 1000000
+Sortat corect! Durata: 0.1562337875366211 secunde
+N = 100000, MAX = 10000000
+Sortat corect! Durata: 0.20353388786315918 secunde
+N = 1000000, MAX = 100
+Sortat incorect!
+N = 1000000, MAX = 1000

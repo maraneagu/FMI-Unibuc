@@ -1,0 +1,72 @@
+T = 35
+
+N = 100, MAX = 100
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 1000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 10000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 100000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 1000000
+Sortat corect! Durata: 0.0 secunde
+N = 100, MAX = 10000000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 100
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 1000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 10000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 100000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 1000000
+Sortat corect! Durata: 0.0 secunde
+N = 1000, MAX = 10000000
+Sortat corect! Durata: 0.0 secunde
+N = 10000, MAX = 100
+Sortat corect! Durata: 0.03124713897705078 secunde
+N = 10000, MAX = 1000
+Sortat corect! Durata: 0.03123950958251953 secunde
+N = 10000, MAX = 10000
+Sortat corect! Durata: 0.04693460464477539 secunde
+N = 10000, MAX = 100000
+Sortat corect! Durata: 0.03124547004699707 secunde
+N = 10000, MAX = 1000000
+Sortat corect! Durata: 0.03124713897705078 secunde
+N = 10000, MAX = 10000000
+Sortat corect! Durata: 0.031246662139892578 secunde
+N = 100000, MAX = 100
+Sortat corect! Durata: 0.34371161460876465 secunde
+N = 100000, MAX = 1000
+Sortat corect! Durata: 0.406264066696167 secunde
+N = 100000, MAX = 10000
+Sortat corect! Durata: 0.39152956008911133 secunde
+N = 100000, MAX = 100000
+Sortat corect! Durata: 0.5104513168334961 secunde
+N = 100000, MAX = 1000000
+Sortat corect! Durata: 0.37797021865844727 secunde
+N = 100000, MAX = 10000000
+Sortat corect! Durata: 0.47130465507507324 secunde
+N = 1000000, MAX = 100
+Sortat corect! Durata: 4.995227813720703 secunde
+N = 1000000, MAX = 1000
+Sortat corect! Durata: 7.488517999649048 secunde
+N = 1000000, MAX = 10000
+Sortat corect! Durata: 7.738677263259888 secunde
+N = 1000000, MAX = 100000
+Sortat corect! Durata: 7.848451375961304 secunde
+N = 1000000, MAX = 1000000
+Sortat corect! Durata: 7.834970951080322 secunde
+N = 1000000, MAX = 10000000
+Sortat corect! Durata: 7.848452806472778 secunde
+N = 10000000, MAX = 100
+Sortat corect! Durata: 81.76681399345398 secunde
+N = 10000000, MAX = 1000
+Sortat corect! Durata: 91.55811786651611 secunde
+N = 10000000, MAX = 10000
+Sortat corect! Durata: 97.8389892578125 secunde
+N = 10000000, MAX = 100000
+Sortat corect! Durata: 98.36821126937866 secunde
+N = 10000000, MAX = 1000000
+Sortat corect! Durata: 101.12461543083191 secunde
