@@ -1,0 +1,66 @@
+CERINTA: Pentru un client si o limba date de la tastatura, afisati lista filmelor pe care le-a inchiriat, care au fost traduse in limba respectiva.
+
+COD:
+CREATE OR REPLACE PROCEDURE p_9_mng (nume customer_mng.cust_last%TYPE,
+                                     prenume customer_mng.cust_first%TYPE,
+                                     limba language_mng.language_name%TYPE) IS
+    c_id            customer_mng.cust_id%TYPE;
+    l_id            language_mng.language_id%TYPE;
+    
+    TYPE vector IS VARRAY(50) OF film_mng.film_title%TYPE;
+    f_titlu         vector;
+BEGIN
+    SELECT cust_id INTO c_id
+    FROM customer_mng
+    WHERE UPPER(cust_last) = UPPER(nume) AND UPPER(cust_first) = UPPER(prenume);
+    
+    SELECT language_id INTO l_id
+    FROM language_mng
+    WHERE UPPER(language_name) = UPPER(limba);
+        
+    SELECT f.film_title BULK COLLECT INTO f_titlu
+    FROM customer_mng c
+    JOIN rental_mng r ON (c.cust_id = r.cust_id)
+    JOIN rental_consists_of r_c ON (r.rental_id = r_c.rental_id)
+    JOIN film_mng f ON (r_c.film_id = f.film_id)
+    JOIN translated_to t ON (f.film_id = t.film_id)
+    WHERE c.cust_id = c_id AND t.language_id = l_id;
+    
+    IF f_titlu.COUNT = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Clientul introdus nu a rezervat niciun film tradus in ' || LOWER(limba));
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('- Lista filme - ');
+        FOR i IN 1..f_titlu.COUNT LOOP
+            DBMS_OUTPUT.PUT_LINE('Film: ' || f_titlu(i));
+        END LOOP;
+    END IF;
+    
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Datele introduse nu exista!');
+        WHEN TOO_MANY_ROWS THEN
+            RAISE_APPLICATION_ERROR(-20002, 'Exista mai multi cu clienti cu acest nume!');
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(-20003, 'Alta eroare!');
+END p_9_mng;
+   
+
+APEL:
+
+1) REZULTAT
+BEGIN
+    p_9_mng('Petre','Veronica','Franceza');
+END;
+/
+
+2) EROARE - NO_DATA_FOUND
+BEGIN
+    p_9_mng('Petre','Veronica','Rusa');
+END;
+/
+
+3) EROARE - TOO_MANY_ROWS
+BEGIN
+    p_9_mng('Popa','Cosmina','Franceza');
+END;
+/

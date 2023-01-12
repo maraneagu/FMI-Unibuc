@@ -1,0 +1,129 @@
+CERINTA: Declansator care va actualiza pretul unei comenzi/inchirieri.
+
+COD:
+CREATE OR REPLACE TRIGGER t_11_order_mng
+AFTER INSERT OR UPDATE OR DELETE ON order_consists_of
+FOR EACH ROW
+DECLARE
+    f_pret          film_mng.film_order_price%TYPE;
+    f_pret_vechi    film_mng.film_order_price%TYPE;
+BEGIN
+    IF INSERTING THEN
+        SELECT film_order_price INTO f_pret
+        FROM film_mng
+        WHERE film_id = :NEW.film_id;
+        
+        UPDATE order_mng
+        SET ord_price = NVL(ord_price, 0) + (f_pret * :NEW.number_of_films)
+        WHERE ord_id = :NEW.ord_id;
+        
+    ELSIF UPDATING('film_id') THEN
+        SELECT film_order_price INTO f_pret_vechi
+        FROM film_mng
+        WHERE film_id = :OLD.film_id;
+        
+        SELECT film_order_price INTO f_pret
+        FROM film_mng
+        WHERE film_id = :NEW.film_id;
+        
+        UPDATE order_mng
+        SET ord_price = ord_price - (f_pret_vechi * :OLD.number_of_films) + (f_pret * :NEW.number_of_films)
+        WHERE ord_id = :OLD.ord_id;
+    
+    ELSIF UPDATING('number_of_films') THEN
+        SELECT film_order_price INTO f_pret
+        FROM film_mng
+        WHERE film_id = :OLD.film_id;
+        
+        UPDATE order_mng
+        SET ord_price = ord_price - (f_pret * :OLD.number_of_films) + (f_pret * :NEW.number_of_films)
+        WHERE ord_id = :OLD.ord_id;
+        
+    ELSE
+        SELECT film_order_price INTO f_pret_vechi
+        FROM film_mng
+        WHERE film_id = :OLD.film_id;
+        
+        UPDATE order_mng
+        SET ord_price = ord_price - (f_pret_vechi * :OLD.number_of_films)
+        WHERE ord_id = :OLD.ord_id;
+    END IF;
+END;
+/
+
+CREATE OR REPLACE TRIGGER t_11_rental_mng
+AFTER INSERT OR UPDATE OR DELETE ON rental_consists_of
+FOR EACH ROW
+DECLARE
+    f_pret          film_mng.film_rental_price%TYPE;
+    f_pret_vechi    film_mng.film_rental_price%TYPE;
+BEGIN
+    IF INSERTING THEN
+        SELECT film_rental_price INTO f_pret
+        FROM film_mng
+        WHERE film_id = :NEW.film_id;
+        
+        UPDATE rental_mng
+        SET rental_price = NVL(rental_price,0) + f_pret
+        WHERE rental_id = :NEW.rental_id;
+        
+    ELSIF UPDATING THEN
+        SELECT film_rental_price INTO f_pret_vechi
+        FROM film_mng
+        WHERE film_id = :OLD.film_id;
+        
+        SELECT film_rental_price INTO f_pret
+        FROM film_mng
+        WHERE film_id = :NEW.film_id;
+        
+        UPDATE rental_mng
+        SET rental_price = rental_price - f_pret_vechi + f_pret
+        WHERE rental_id = :NEW.rental_id;
+    
+    ELSE
+        SELECT film_rental_price INTO f_pret_vechi
+        FROM film_mng
+        WHERE film_id = :OLD.film_id;
+        
+        UPDATE rental_mng
+        SET rental_price = rental_price - f_pret_vechi
+        WHERE rental_id = :OLD.rental_id;
+    END IF;
+END;
+/
+
+APEL:
+
+1). order
+INSERT INTO order_consists_of
+VALUES(2058, 900, 1);
+
+UPDATE order_consists_of
+SET number_of_films = 2
+WHERE ord_id = 2058 AND film_id = 900;
+
+UPDATE order_consists_of
+SET film_id = 902
+WHERE ord_id = 2058 AND film_id = 900;
+
+DELETE FROM order_consists_of
+WHERE ord_id = 2058 AND film_id = 902;
+
+SELECT *
+FROM order_mng
+WHERE ord_id = 2058;
+
+2). rental
+INSERT INTO rental_consists_of
+VALUES(3117, 900);
+
+UPDATE rental_consists_of
+SET film_id = 902
+WHERE rental_id = 3117 AND film_id = 900;
+
+DELETE FROM rental_consists_of
+WHERE rental_id = 3117 AND film_id = 902;
+
+SELECT *
+FROM rental_mng
+WHERE rental_id = 3117;

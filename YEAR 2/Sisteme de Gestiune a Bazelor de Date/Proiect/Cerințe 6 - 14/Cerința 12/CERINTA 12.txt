@@ -1,0 +1,20 @@
+CERINTA: Declansator de tip LDD care permite modificarea schemei doar de catre utilizatorul 'mara_neagu'.
+
+COD:
+CREATE OR REPLACE TRIGGER t_12_mng
+BEFORE CREATE OR DROP OR ALTER ON SCHEMA
+BEGIN
+    IF USER != UPPER('mara_neagu') THEN
+        RAISE_APPLICATION_ERROR(-20000, 'Nu puteti face modificari la schema!');
+    END IF;
+END;
+/
+
+DECLANSARE:
+ALTER TABLE film_mng
+DROP COLUMN film_length;
+
+ROLLBACK;
+
+DEZACTIVARE:
+ALTER TRIGGER t_12_mng DISABLE;

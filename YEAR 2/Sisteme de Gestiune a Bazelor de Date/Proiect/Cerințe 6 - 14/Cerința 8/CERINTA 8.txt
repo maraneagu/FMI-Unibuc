@@ -1,0 +1,81 @@
+CERINTA: Pentru un magazin introdus de la tastatura, sa se determine numarul de regizori, care au regizat filme, avand un rating mai mare sau egal cu un rating dat de la tastatura.
+
+COD:
+CREATE OR REPLACE FUNCTION f_8_mng(s_nume store_mng.store_name%TYPE,
+                                   rating film_mng.film_rating%TYPE) 
+RETURN NUMBER IS
+    s_nume_invalid      EXCEPTION;
+    rating_invalid      EXCEPTION;
+    
+    s_id                store_mng.store_id%TYPE;
+    numarator           NUMBER(4) := 0;
+BEGIN
+    IF UPPER(s_nume) NOT LIKE 'THE VELVET STAGE%' THEN
+        RAISE s_nume_invalid;
+    END IF;
+        
+    IF rating < 1 OR rating > 10 THEN
+        RAISE rating_invalid;
+    END IF;
+        
+    SELECT store_id INTO s_id
+    FROM store_mng
+    WHERE store_name = s_nume;
+        
+    SELECT COUNT(*) INTO numarator
+    FROM store_mng s
+    JOIN store_inventory s_i ON (s.store_id = s_i.store_id)
+    JOIN film_mng f ON (s_i.film_id = f.film_id)
+    JOIN director_mng d ON (f.director_id = d.director_id)
+    WHERE s.store_id = s_id AND f.film_rating > rating;
+        
+    RETURN numarator;
+        
+    EXCEPTION
+        WHEN s_nume_invalid THEN
+            RAISE_APPLICATION_ERROR(-20000, 'Numele magazinului introdus este invalid!');
+        WHEN rating_invalid THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Rating-ul introdus este invalid!');
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Alta eroare!');
+END f_8_mng;
+
+
+APEL:
+
+1) REZULTAT
+DECLARE
+	numarator		NUMBER(4);
+BEGIN
+	numarator := f_8_mng('The Velvet Stage',8);
+	DBMS_OUTPUT.PUT_LINE(numarator);
+END;
+/
+
+2) EROARE s_nume_invalid
+DECLARE
+	numarator		NUMBER(4);
+BEGIN
+	numarator := f_8_mng('The Velvet',8);
+	DBMS_OUTPUT.PUT_LINE(numarator);
+END;
+/
+
+3) EROARE rating_invalid
+DECLARE
+	numarator		NUMBER(4);
+BEGIN
+	numarator := f_8_mng('The Velvet Stage',0);
+	DBMS_OUTPUT.PUT_LINE(numarator);
+END;
+/
+
+4) EROARE alta eroare
+DECLARE
+	numarator		NUMBER(4);
+BEGIN
+	numarator := f_8_mng('The Velvet Stage Roma',8);
+	DBMS_OUTPUT.PUT_LINE(numarator);
+END;
+/
+

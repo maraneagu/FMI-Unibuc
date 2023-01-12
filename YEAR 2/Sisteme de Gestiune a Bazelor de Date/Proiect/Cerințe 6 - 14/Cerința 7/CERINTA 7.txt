@@ -1,0 +1,39 @@
+CERINTA: Pentru fiecare magazin din franciză, să se afișeze lista angajaților care au porcesat cel puțin o comandă în 2022.
+
+COD:
+CREATE OR REPLACE PROCEDURE p_7_mng IS
+    CURSOR c_e(s store_mng.store_id%TYPE) IS
+        SELECT DISTINCT emp_last nume, emp_first prenume
+        FROM employee_mng e
+        JOIN works_in w_i ON (w_i.store_id = s AND w_i.emp_id = e.emp_id)
+        JOIN order_mng o ON (e.emp_id = o.emp_id)
+        WHERE EXTRACT (YEAR FROM o.ord_date) = 2022;
+        
+    e_numar     NUMBER(4);
+BEGIN
+    FOR s IN (SELECT store_id id, store_name nume
+              FROM store_mng) LOOP            
+        DBMS_OUTPUT.PUT_LINE('- ' || s.nume || ' -');
+            
+        e_numar := 0;
+            
+        DBMS_OUTPUT.PUT_LINE('Lista angajati: ');
+        FOR e IN c_e(s.id) LOOP
+            EXIT WHEN c_e%NOTFOUND;
+                
+            DBMS_OUTPUT.PUT_LINE('Angajat: ' || e.nume || ' ' || e.prenume) ;
+            e_numar := e_numar + 1;
+        END LOOP;
+            
+        IF e_numar = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Niciun angajat nu a procesat o comanda in 2022!');
+        END IF;
+        DBMS_OUTPUT.NEW_LINE;
+    END LOOP;
+END p_7_mng;
+
+
+APEL:
+BEGIN
+    p_7_mng;
+END;

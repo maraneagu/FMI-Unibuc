@@ -1,0 +1,169 @@
+COD:
+CREATE OR REPLACE PACKAGE p_13_mng AS
+    PROCEDURE p_6_mng;
+    
+    PROCEDURE p_7_mng;
+    
+    FUNCTION f_8_mng(s_nume store_mng.store_name%TYPE,
+                     rating film_mng.film_rating%TYPE) 
+    RETURN NUMBER;
+    
+    PROCEDURE p_9_mng (nume customer_mng.cust_last%TYPE,
+                       prenume customer_mng.cust_first%TYPE,
+                       limba language_mng.language_name%TYPE);
+END p_13_mng;
+/
+
+
+CREATE OR REPLACE PACKAGE BODY p_13_mng AS
+    PROCEDURE p_6_mng IS
+        TYPE vector IS VARRAY(20) OF film_mng.film_id%TYPE;
+        TYPE tablou_indexat IS TABLE OF actor_mng.actor_id%TYPE INDEX BY PLS_INTEGER;
+        
+        f_id        vector;
+        a_id        tablou_indexat;
+        
+        a_nume      actor_mng.actor_last%TYPE;
+        a_prenume   actor_mng.actor_first%TYPE;   
+    BEGIN
+        SELECT film_id BULK COLLECT INTO f_id
+        FROM film_mng f
+        JOIN category_mng c ON (f.category_id = c.category_id)
+        WHERE UPPER(category_name) = 'COMEDIE';
+        
+        FOR i IN 1..f_id.COUNT LOOP
+            SELECT actor_id BULK COLLECT INTO a_id
+            FROM acts_in
+            WHERE film_id = f_id(i);
+                
+            FOR i IN 1..a_id.COUNT LOOP
+                SELECT actor_last INTO a_nume
+                FROM actor_mng
+                WHERE actor_id = a_id(i);
+                    
+                SELECT actor_first INTO a_prenume
+                FROM actor_mng
+                WHERE actor_id = a_id(i);
+                    
+                DBMS_OUTPUT.PUT_LINE('Nume: ' || a_nume || '; Prenume: ' || a_prenume);
+            END LOOP;
+        END LOOP;
+    END p_6_mng;
+    
+    
+    PROCEDURE p_7_mng IS
+        CURSOR c_e(s store_mng.store_id%TYPE) IS
+            SELECT DISTINCT emp_last nume, emp_first prenume
+            FROM employee_mng e
+            JOIN works_in w_i ON (w_i.store_id = s AND w_i.emp_id = e.emp_id)
+            JOIN order_mng o ON (e.emp_id = o.emp_id)
+            WHERE EXTRACT (YEAR FROM o.ord_date) = 2022;
+            
+        e_numar     NUMBER(4);
+    BEGIN
+        FOR s IN (SELECT store_id id, store_name nume
+                  FROM store_mng) LOOP            
+            DBMS_OUTPUT.PUT_LINE('- ' || s.nume || ' -');
+                
+            e_numar := 0;
+                
+            DBMS_OUTPUT.PUT_LINE('Lista angajati: ');
+            FOR e IN c_e(s.id) LOOP
+                EXIT WHEN c_e%NOTFOUND;
+                    
+                DBMS_OUTPUT.PUT_LINE('Angajat: ' || e.nume || ' ' || e.prenume) ;
+                e_numar := e_numar + 1;
+            END LOOP;
+                
+            IF e_numar = 0 THEN
+                DBMS_OUTPUT.PUT_LINE('Niciun angajat nu a procesat o comanda in 2022!');
+            END IF;
+            DBMS_OUTPUT.NEW_LINE;
+        END LOOP;
+    END p_7_mng;
+    
+    
+    FUNCTION f_8_mng(s_nume store_mng.store_name%TYPE,
+                     rating film_mng.film_rating%TYPE) 
+    RETURN NUMBER IS
+        s_nume_invalid      EXCEPTION;
+        rating_invalid      EXCEPTION;
+        
+        s_id                store_mng.store_id%TYPE;
+        numarator           NUMBER(4) := 0;
+    BEGIN
+        IF UPPER(s_nume) NOT LIKE 'THE VELVET STAGE%' THEN
+            RAISE s_nume_invalid;
+        END IF;
+            
+        IF rating < 1 OR rating > 10 THEN
+            RAISE rating_invalid;
+        END IF;
+            
+        SELECT store_id INTO s_id
+        FROM store_mng
+        WHERE store_name = s_nume;
+            
+        SELECT COUNT(*) INTO numarator
+        FROM store_mng s
+        JOIN store_inventory s_i ON (s.store_id = s_i.store_id)
+        JOIN film_mng f ON (s_i.film_id = f.film_id)
+        JOIN director_mng d ON (f.director_id = d.director_id)
+        WHERE s.store_id = s_id AND f.film_rating > rating;
+            
+        RETURN numarator;
+            
+        EXCEPTION
+            WHEN s_nume_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Numele magazinului introdus este invalid!');
+            WHEN rating_invalid THEN
+                RAISE_APPLICATION_ERROR(-20001, 'Rating-ul introdus este invalid!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20001, 'Alta eroare!');
+    END f_8_mng;
+    
+    
+    PROCEDURE p_9_mng (nume customer_mng.cust_last%TYPE,
+                       prenume customer_mng.cust_first%TYPE,
+                       limba language_mng.language_name%TYPE) IS
+        c_id            customer_mng.cust_id%TYPE;
+        l_id            language_mng.language_id%TYPE;
+    
+        TYPE vector IS VARRAY(50) OF film_mng.film_title%TYPE;
+        f_titlu         vector;
+    BEGIN
+        SELECT cust_id INTO c_id
+        FROM customer_mng
+        WHERE UPPER(cust_last) = UPPER(nume) AND UPPER(cust_first) = UPPER(prenume);
+        
+        SELECT language_id INTO l_id
+        FROM language_mng
+        WHERE UPPER(language_name) = UPPER(limba);
+            
+        SELECT f.film_title BULK COLLECT INTO f_titlu
+        FROM customer_mng c
+        JOIN rental_mng r ON (c.cust_id = r.cust_id)
+        JOIN rental_consists_of r_c ON (r.rental_id = r_c.rental_id)
+        JOIN film_mng f ON (r_c.film_id = f.film_id)
+        JOIN translated_to t ON (f.film_id = t.film_id)
+        WHERE c.cust_id = c_id AND t.language_id = l_id;
+        
+        IF f_titlu.COUNT = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Clientul introdus nu a rezervat niciun film tradus in ' || LOWER(limba));
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('- Lista filme - ');
+            FOR i IN 1..f_titlu.COUNT LOOP
+                DBMS_OUTPUT.PUT_LINE('Film: ' || f_titlu(i));
+            END LOOP;
+        END IF;
+        
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20001, 'Datele introduse nu exista!');
+            WHEN TOO_MANY_ROWS THEN
+                RAISE_APPLICATION_ERROR(-20002, 'Exista mai multi cu clienti cu acest nume!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20003, 'Alta eroare!');
+    END p_9_mng;
+END p_13_mng;
+/

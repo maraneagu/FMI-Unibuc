@@ -1,0 +1,152 @@
+Pachet: 
+- procedura care pentru codul unui angajat si codul magazinul unde lucreaza, afiseaza lista comenzilor procesate de acesta.
+- procedura care pentru un magazin din franciza, afiseaza cele top 5 filme care au fost comandate si inchiriate.
+- functie care pentru un magazin dat de la tastatura si o luna, returneaza angajatul lunii: a procesat cele mai multe comenzi si inchirieri.
+
+COD:
+CREATE OR REPLACE PACKAGE p_14_mng AS
+    PROCEDURE c_14 (s_id store_mng.store_id%TYPE,
+                    e_id employee_mng.emp_id%TYPE);
+    
+    PROCEDURE p_14 (s_id store_mng.store_id%TYPE);
+    
+    FUNCTION f_14 (s_id store_mng.store_id%TYPE,
+                   luna NUMBER)
+    RETURN employee_mng.emp_id%TYPE;
+END p_14_mng;
+/
+
+CREATE OR REPLACE PACKAGE BODY p_14_mng AS
+   PROCEDURE c_14 (s_id store_mng.store_id%TYPE,
+                   e_id employee_mng.emp_id%TYPE) IS
+        s_id_invalid    EXCEPTION;
+        e_id_invalid    EXCEPTION;
+        
+        CURSOR c (s_id store_mng.store_id%TYPE,
+                  e_id employee_mng.emp_id%TYPE) IS
+            SELECT o.ord_date data, c.cust_last nume, c.cust_first prenume
+            FROM order_mng o
+            JOIN employee_mng e ON (o.emp_id = e.emp_id)
+            JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+            JOIN customer_mng c ON (o.cust_id = c.cust_id)
+            WHERE o.emp_id = e_id AND w_i.store_id = s_id;
+            
+        o_numar         NUMBER(4):= 1;
+    BEGIN
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        IF e_id > 600 OR e_id < 100 THEN
+            RAISE e_id_invalid;
+        END IF;
+        
+        FOR i IN c(s_id, e_id) LOOP
+            EXIT WHEN c%NOTFOUND;
+            
+            DBMS_OUTPUT.PUT_LINE('Comanda ' || o_numar || '. Data: ' || i.data || '; Client: ' || i.nume || ' ' || i.prenume); 
+            o_numar := o_numar + 1;
+        END LOOP;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN e_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul angajatului introdus este invalid!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END c_14;
+          
+    PROCEDURE p_14 (s_id store_mng.store_id%TYPE) IS
+        s_id_invalid  EXCEPTION;
+        
+        CURSOR c(s_id store_mng.store_id%TYPE) IS
+            SELECT f_titlu
+            FROM (SELECT f.film_title f_titlu, ((SELECT COUNT(*) FROM order_consists_of o WHERE o.film_id = f.film_id) + 
+                                                (SELECT COUNT(*) FROM rental_consists_of r WHERE r.film_id = f.film_id)) f_numar
+                  FROM film_mng f
+                  JOIN store_inventory s_i ON (f.film_id = s_i.film_id)
+                  WHERE s_i.store_id = s_id
+                  ORDER BY f_numar DESC)
+            WHERE ROWNUM < 6;
+        f_numar     NUMBER(4):= 0;
+    BEGIN
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        DBMS_OUTPUT.PUT_LINE('- Top 5 filme -');
+        FOR i IN c(s_id) LOOP
+            EXIT WHEN c%NOTFOUND;
+            
+            DBMS_OUTPUT.PUT_LINE(f_numar + 1 || '. ' || i.f_titlu);
+            f_numar := f_numar + 1;
+        END LOOP;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END p_14;
+    
+    
+    FUNCTION f_14 (s_id store_mng.store_id%TYPE,
+                   luna NUMBER)
+    RETURN employee_mng.emp_id%TYPE IS
+        s_id_invalid    EXCEPTION;
+        luna_invalida   EXCEPTION;
+        
+        e_id            employee_mng.emp_id%TYPE;
+    BEGIN
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        IF luna > 12 OR luna < 1 THEN
+            RAISE luna_invalida;
+        END IF;
+        
+        SELECT e_cod INTO e_id
+        FROM (SELECT e.emp_id e_cod, ((SELECT COUNT(*) FROM order_mng o WHERE o.emp_id = e.emp_id AND EXTRACT (MONTH FROM o.ord_date) = luna) +
+                                      (SELECT COUNT(*) FROM rental_mng r WHERE r.emp_id = e.emp_id AND EXTRACT (MONTH FROM r.rental_date) = luna)) e_numar
+              FROM employee_mng e
+              JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+              WHERE w_i.store_id = s_id
+              ORDER BY e_numar DESC)
+        WHERE ROWNUM = 1;
+        
+        RETURN e_id;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN luna_invalida THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Luna introdusa este invalida!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END f_14;
+END p_14_mng;
+
+Apel:
+DECLARE
+    e_id        employee_mng.emp_id%TYPE;
+    e_nume      employee_mng.emp_last%TYPE;
+    e_prenume   employee_mng.emp_first%TYPE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Lista comenzilor procesate: ');
+    p_14_mng.c_14(1, 103);
+    DBMS_OUTPUT.NEW_LINE;
+    
+    p_14_mng.p_14(2);
+    DBMS_OUTPUT.NEW_LINE;
+    
+    e_id := p_14_mng.f_14(3, 6);
+    SELECT emp_last INTO e_nume FROM employee_mng WHERE emp_id = e_id;
+    SELECT emp_first INTO e_prenume FROM employee_mng WHERE emp_id = e_id;
+    DBMS_OUTPUT.PUT_LINE('Angajatul lunii iunie: ' || e_nume || ' ' || e_prenume); 
+END;
+/
+
+
+

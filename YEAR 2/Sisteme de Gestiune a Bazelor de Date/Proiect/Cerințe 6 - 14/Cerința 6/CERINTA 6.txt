@@ -1,0 +1,44 @@
+CERINTA: Sa se afiseze toti actorii care joaca in cel putin un film de comedie.
+
+COD:
+CREATE OR REPLACE PROCEDURE p_6_mng IS
+    TYPE vector IS VARRAY(20) OF film_mng.film_id%TYPE;
+    TYPE tablou_indexat IS TABLE OF actor_mng.actor_id%TYPE INDEX BY PLS_INTEGER;
+    
+    f_id        vector;
+    a_id        tablou_indexat;
+    
+    a_nume      actor_mng.actor_last%TYPE;
+    a_prenume   actor_mng.actor_first%TYPE;
+    
+BEGIN
+    SELECT film_id BULK COLLECT INTO f_id
+    FROM film_mng f
+    JOIN category_mng c ON (f.category_id = c.category_id)
+    WHERE UPPER(category_name) = 'COMEDIE';
+        
+    FOR i IN 1..f_id.COUNT LOOP
+        SELECT actor_id BULK COLLECT INTO a_id
+        FROM acts_in
+        WHERE film_id = f_id(i);
+            
+        FOR i IN 1..a_id.COUNT LOOP
+            SELECT actor_last INTO a_nume
+            FROM actor_mng
+            WHERE actor_id = a_id(i);
+                
+            SELECT actor_first INTO a_prenume
+            FROM actor_mng
+            WHERE actor_id = a_id(i);
+                
+            DBMS_OUTPUT.PUT_LINE('Nume: ' || a_nume || '; Prenume: ' || a_prenume);
+        END LOOP;
+    END LOOP;
+END p_6_mng;
+
+APEL:
+BEGIN
+    p_6_mng;
+END;
+
+
