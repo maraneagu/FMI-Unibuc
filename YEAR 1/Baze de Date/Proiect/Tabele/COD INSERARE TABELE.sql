@@ -348,18 +348,18 @@ values (11027,'Wachowski','Lana');
 film_mng:
 insert into FILM_MNG
 values (900,'Cavalerul intunecat',
-        '"Cavalerul intunecat" este un film de actiune scris si regizat de Christopher Nolan. Bazat pe benzile desenate cu Batman, filmul este o continuare a filmului "Batman - Inceputuri" (2005). Christian Bale are rolul principal. Batman, personajul principal al filmului, are conflicte cu Joker (Heath Ledger) È™i o prietenie strÃ¢nsÄƒ cu avocatul sÄƒu Harvey Dent (Aaron Eckhart).',
+        '"Cavalerul intunecat" este un film de actiune scris si regizat de Christopher Nolan. Bazat pe benzile desenate cu Batman, filmul este o continuare a filmului "Batman - Inceputuri" (2005). Christian Bale are rolul principal. Batman, personajul principal al filmului, are conflicte cu Joker (Heath Ledger) ?i o prietenie strânsã cu avocatul sãu Harvey Dent (Aaron Eckhart).',
         '25-IUL-2008','Engleza',152,20,60,9,11000,10);
         
 insert into FILM_MNG
 values (901,'Razbunatorii',
         'Filmul este primul din franciza "Razbunatorii" si al saselea din Marvel Cinematic Universe (MCU). Cum filmul aduce impreuna toti super-eroii din MCU de pana acum, el reprezinta sfarsitul Fazei 1 a MCU.
-Filmul este scris si regizat de Joss Whedon, iar in rolurile principale interpreteaza actorii Robert Downey, Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson, Jeremy Renner, Tom Hiddleston È™i Samuel L. Jackson.',
+Filmul este scris si regizat de Joss Whedon, iar in rolurile principale interpreteaza actorii Robert Downey, Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson, Jeremy Renner, Tom Hiddleston ?i Samuel L. Jackson.',
         '04-APR-2012','Engleza',143,20,60,8,11001,10);
         
 insert into FILM_MNG
 values (902,'Greu de ucis',
-        '"Greu de ucis" este un film de actiune american din 1988 regizat de John McTiernan. Rolurile principale au fost interpretate de actorii Bruce Willis È™i Alan Rickman. Detectivul NYPD John McClane tocmai ajuns in Los Angeles pentru a petrece Craciunul alaturi de sotia sa este nevoit sa opreasca un grup de teroristi condus de Hans Gruber, care au luat ostatici pe toata lumea din cladirea Nakatomi Plaza.',
+        '"Greu de ucis" este un film de actiune american din 1988 regizat de John McTiernan. Rolurile principale au fost interpretate de actorii Bruce Willis ?i Alan Rickman. Detectivul NYPD John McClane tocmai ajuns in Los Angeles pentru a petrece Craciunul alaturi de sotia sa este nevoit sa opreasca un grup de teroristi condus de Hans Gruber, care au luat ostatici pe toata lumea din cladirea Nakatomi Plaza.',
         '04-IUN-1993','Engleza',132,15,50,8.2,11002,10);
         
 insert into FILM_MNG
@@ -390,13 +390,13 @@ Astfel, inarmati cu arme speciale, cei trei pornesc in cautarea si prinderea jef
         
 insert into FILM_MNG
 values (908,'Zoolander',
-        'Comedia regizatÄƒ de Ben Stiller este o parodie la adresa superficialitÄƒÈ›ii din lumea modei È™i a oamenilor care o pun Ã®n miÈ™care. Nume celebre din lumea modei sunt ridiculizate È™i se fac trimiteri subtile la diverÈ™i creatori care par sÄƒ fi pierdut contactul cu realitatea. ÃŽntr-un contrast ironic, familia personajului principal, un model masculin de succes, este prezentatÄƒ una modestÄƒ, de mineri, singurii care par sÄƒ pÄƒstreze contactul cu lumea realÄƒ.',
+        'Comedia regizatã de Ben Stiller este o parodie la adresa superficialitã?ii din lumea modei ?i a oamenilor care o pun în mi?care. Nume celebre din lumea modei sunt ridiculizate ?i se fac trimiteri subtile la diver?i creatori care par sã fi pierdut contactul cu realitatea. Într-un contrast ironic, familia personajului principal, un model masculin de succes, este prezentatã una modestã, de mineri, singurii care par sã pãstreze contactul cu lumea realã.',
         '04-IAN-2001','Engleza',89,20,60,6.3,11008,12);
         
 insert into FILM_MNG
 values (909,'Anastasia',
         'Candva, nu foarte demult, familia Romanov traia intr-o lume incantatoare a palatelor elegante si a petrecerilor fastuoase. Dar cumplitul Rasputin, intors la Sankt Petersburg din dorinta de a se razbuna, va aprinde focul revolutiei ce va cuprinde intreaga tara, in cele din urma distrugand familia Romanov.
-In urma atacului asupra Palatului Regal, singurele care vor supravietui sunt imparateasa Marie si nepoata ei, Anastasia. Urmarite de Rasputin, singura lor speranta este sa prinda ultimul trenâ€¦',
+In urma atacului asupra Palatului Regal, singurele care vor supravietui sunt imparateasa Marie si nepoata ei, Anastasia. Urmarite de Rasputin, singura lor speranta este sa prinda ultimul tren…',
         '14-NOI-1997','Engleza',94,15,35,8.5,11009,13);
         
 insert into FILM_MNG
@@ -427,7 +427,7 @@ values (914,'Cetateanul Kane',
         
 insert into FILM_MNG
 values (915,'Stralucirea',
-        '"Stralucirea" este un film horror psihologic din 1980, produs si regizat de Stanley Kubrick. Rolurile principale sunt interpretate de Jack Nicholson, Shelley Duvall È™i Danny Lloyd. Filmul spune povestea unui scriitor, Jack Torrance, care accepta o slujba de supraveghetor al unui hotel, care pe timp de iarna este absolut pustiu. Fiul sau poseda abilitati de medium si este capabil sa vada lucruri din trecut si din viitor, precum si fantomele care locuiesc in hotel.',
+        '"Stralucirea" este un film horror psihologic din 1980, produs si regizat de Stanley Kubrick. Rolurile principale sunt interpretate de Jack Nicholson, Shelley Duvall ?i Danny Lloyd. Filmul spune povestea unui scriitor, Jack Torrance, care accepta o slujba de supraveghetor al unui hotel, care pe timp de iarna este absolut pustiu. Fiul sau poseda abilitati de medium si este capabil sa vada lucruri din trecut si din viitor, precum si fantomele care locuiesc in hotel.',
         '23-APR-1980','Engleza',119,30,60,8.5,11015,15);
         
 insert into FILM_MNG
@@ -442,12 +442,12 @@ values (917,'Scream',
     
 insert into FILM_MNG
 values (918,'Mamma Mia',
-        'Sophie Sheridan are 20 de ani si locuieste cu mama sa, pe o insula din Grecia. Ea este pe cale sa se casatoreasca si are o singura dorinta, si anume, ca tatal sau sa o conduca la altar. Problema este ca nu stie cine este. Dupa ce gaseste jurnalul Donnei, invita la nunta trei barbati, fiecare dintre ei putand fi tatal sau. Sophie este convinsa ca il va recunoaste, insa, in momentul in care ii vede sosind, nu are nici cea mai micÄƒ idee. De aici, o intreaga incurcatura.',
+        'Sophie Sheridan are 20 de ani si locuieste cu mama sa, pe o insula din Grecia. Ea este pe cale sa se casatoreasca si are o singura dorinta, si anume, ca tatal sau sa o conduca la altar. Problema este ca nu stie cine este. Dupa ce gaseste jurnalul Donnei, invita la nunta trei barbati, fiecare dintre ei putand fi tatal sau. Sophie este convinsa ca il va recunoaste, insa, in momentul in care ii vede sosind, nu are nici cea mai micã idee. De aici, o intreaga incurcatura.',
         '30-IUN-2008','Engleza',108,20,60,9.0,11017,16);
         
 insert into FILM_MNG
 values (919,'La La Land',
-        '"La La Land" este un film american muzical de dragoste dramatic din 2016, scris si regizat de Damien Chazelle. Rolurile principale au fost interpretate de actorii Ryan Gosling, Emma Stone, John Legend È™i Rosemarie DeWitt. Filmul prezintÄƒ o actrita aspiranta si un muzician care se intalnesc si se indragostesc in Los Angeles.',
+        '"La La Land" este un film american muzical de dragoste dramatic din 2016, scris si regizat de Damien Chazelle. Rolurile principale au fost interpretate de actorii Ryan Gosling, Emma Stone, John Legend ?i Rosemarie DeWitt. Filmul prezintã o actrita aspiranta si un muzician care se intalnesc si se indragostesc in Los Angeles.',
         '09-DEC-2016','Engleza',128,15,50,8.6,11018,16);
         
 insert into FILM_MNG
@@ -457,7 +457,7 @@ values (920,'Grease',
         
 insert into FILM_MNG
 values (921,'Pulp Fiction',
-        '"Pulp Fiction" este un film american regizat de Quentin Tarantino, care a scris si scenariul impreuna cu Roger Avary. Filmul este cunoscut pentru dialogul sau spumos, eclectic, combinatia ironica de umor si violenta dar si pentru firul narativ nonlinear. Filmul a fost nominalizat la sapte premii Oscar, printre care pentru cel mai bun film; Tarantino È™i Avary au castigat premiul pentru cel mai bun scenariu original.',
+        '"Pulp Fiction" este un film american regizat de Quentin Tarantino, care a scris si scenariul impreuna cu Roger Avary. Filmul este cunoscut pentru dialogul sau spumos, eclectic, combinatia ironica de umor si violenta dar si pentru firul narativ nonlinear. Filmul a fost nominalizat la sapte premii Oscar, printre care pentru cel mai bun film; Tarantino ?i Avary au castigat premiul pentru cel mai bun scenariu original.',
         '14-OCT-1994','Engleza',165,20,70,8.9,11020,17);
         
 insert into FILM_MNG
@@ -467,7 +467,7 @@ values (922,'Nasul',
         
 insert into FILM_MNG
 values (923,'Baieti buni',
-        'O capodopera a genului semnata Martin Scorsese. Henry Hill (Ray Liotta) este un gangster de mana a doua care ia parte la o spargere Ã®mpreunÄƒ cu Jimmy Conway (Robert de Niro) È™i Tommy De Vito (Joe Pesci). Ultimii doi ajung apoi sa devina personaje importante ale Mafiei, in timp ce Henry este afectat de succesul lor. Filmul este inspirat de un caz real si povestea lui este conturata in jurul lui Henry, mafiotul care isi vede prietenii urcand pe scara ierarhica a crimei.',
+        'O capodopera a genului semnata Martin Scorsese. Henry Hill (Ray Liotta) este un gangster de mana a doua care ia parte la o spargere împreunã cu Jimmy Conway (Robert de Niro) ?i Tommy De Vito (Joe Pesci). Ultimii doi ajung apoi sa devina personaje importante ale Mafiei, in timp ce Henry este afectat de succesul lor. Filmul este inspirat de un caz real si povestea lui este conturata in jurul lui Henry, mafiotul care isi vede prietenii urcand pe scara ierarhica a crimei.',
         '12-SEP-1990','Engleza',146,20,60,9.0,11022,17);
         
 insert into FILM_MNG
@@ -477,12 +477,12 @@ values (924,'Inainte de rasarit',
         
 insert into FILM_MNG
 values (925,'Mandrie si prejudecata',
-        'Povestea clasica de dragoste este plasata Ã®n Anglia sfarsitului secolului 18. Cele cinci surori Bennet - Elizabeth (Keira Knightley), Jane (Rosamund Pike), Lydia, Mary È™i Kitty â€“ au fost crescute sub stricta ingrijire a mamei lor care se concentreaza doar asupra gasirii unor soti fiicelor ei care sa le asigure din punct de vedere financiar. Insa, inteligenta si curajoasa Elizabeth se straduieste sa-si traiasca viata intr-o perspectiva mai larga, incurajata fiind de tatal bolnav.',
+        'Povestea clasica de dragoste este plasata în Anglia sfarsitului secolului 18. Cele cinci surori Bennet - Elizabeth (Keira Knightley), Jane (Rosamund Pike), Lydia, Mary ?i Kitty – au fost crescute sub stricta ingrijire a mamei lor care se concentreaza doar asupra gasirii unor soti fiicelor ei care sa le asigure din punct de vedere financiar. Insa, inteligenta si curajoasa Elizabeth se straduieste sa-si traiasca viata intr-o perspectiva mai larga, incurajata fiind de tatal bolnav.',
         '25-IUL-2005','Engleza',127,25,50,8.6,11024,18);
         
 insert into FILM_MNG
 values (926,'Cand Harry o intalneste pe Sally',
-        'Apreciatul regizor Rob Reiner contureaza aceasta comedie clasica romantica, avandu-i Ã®n rolurile principale pe Billy Crystal si Meg Ryan. Una dintre cele mai indragite povesti de dragoste ale tuturor timpurilor, "Cand Harry o Ã®ntalneste pe Sally" este un film care "scanteiaza de inteligenta si umor" (Boxoffice), prezentand "genul de adevar despre relatii care nu a mai aparut Ã®n filme pana acum" (New York)... si nici de la momentul respectiv incoace!',
+        'Apreciatul regizor Rob Reiner contureaza aceasta comedie clasica romantica, avandu-i în rolurile principale pe Billy Crystal si Meg Ryan. Una dintre cele mai indragite povesti de dragoste ale tuturor timpurilor, "Cand Harry o întalneste pe Sally" este un film care "scanteiaza de inteligenta si umor" (Boxoffice), prezentand "genul de adevar despre relatii care nu a mai aparut în filme pana acum" (New York)... si nici de la momentul respectiv incoace!',
         '12-IUL-1989','Engleza',96,20,45,7.9,11025,18);
         
 insert into FILM_MNG
@@ -492,12 +492,12 @@ values (927,'Interstellar: Calatorind prin univers',
         
 insert into FILM_MNG
 values (928,'Star Wars',
-        'Luke Skywalker (Mark Hamill) locuieste intr-o ferma de pe Planeta Tatooine si, intr-o zi, observa ca robotul de mana a doua primit de la parintii lui este purtatorul unui mesaj venit din spatiul intergalactic, de la o anumita printesa Leia (Carrie Fisher). Aceasta cere disperata ajutorul unui anumit Obi-Wan Kenobi, care il va pune in tema pe Luke cu privire la razboiul dintre gruparea Rebelilor È™i Imperiul Conducator si energia spirituala numita Forta.',
+        'Luke Skywalker (Mark Hamill) locuieste intr-o ferma de pe Planeta Tatooine si, intr-o zi, observa ca robotul de mana a doua primit de la parintii lui este purtatorul unui mesaj venit din spatiul intergalactic, de la o anumita printesa Leia (Carrie Fisher). Aceasta cere disperata ajutorul unui anumit Obi-Wan Kenobi, care il va pune in tema pe Luke cu privire la razboiul dintre gruparea Rebelilor ?i Imperiul Conducator si energia spirituala numita Forta.',
         '25-APR-1977','Engleza',125,30,70,8.7,11026,19); 
         
 insert into FILM_MNG
 values (929,'Matrix',
-        'Exista doua lumi: prima, cea de zi cu zi, È™i cea de-a doua, paralela. Una este vis. Cealalta este Matrix.
+        'Exista doua lumi: prima, cea de zi cu zi, ?i cea de-a doua, paralela. Una este vis. Cealalta este Matrix.
 Neo (Keanu Reeves) incearca sa afle adevarul despre acea lume despre care a auzit doar in soapta. Dar ce este Matrix? Neo crede ca Morpheus (Laurence Fishburne), o persoana pe care o cunoaste doar din povesti, considerat in acelasi timp cel mai periculos barbat in viata, poate sa-i dea acest raspuns. Dar adevarul pe care Neo il afla este peste asteptari. Iar viata lui nu va mai fi la fel.',
         '31-MAR-1999','Engleza',136,20,50,8.7,11000,19);
 
