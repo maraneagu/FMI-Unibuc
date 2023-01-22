@@ -1,0 +1,257 @@
+Pachet: 
+- procedura care pentru un magazin din franciza, daca media profitului achizitionarii unui DVD pe perioada de primavara este mai mica de 50, sa se ieftineasca pretul achizitionarii unui DVD cu 15%;
+- functie care pentru un magazin dat de la tastatura, o luna si un an, returneaza angajatul lunii: a procesat cele mai multe comenzi si inchirieri;
+- procedura care pentru un magazin din franciza, afiseaza cele top 5 filme care au fost comandate si inchiriate; 
+- functie care pentru un magazin din franciza si un an, calculeaza media profitului anual al vanzarilor, pentru o anumita categorie de film. 
+
+
+COD:
+CREATE OR REPLACE PACKAGE p_14_mng AS
+    PROCEDURE p1_14_mng (s_id store_mng.store_id%TYPE);
+    
+    FUNCTION f1_14_mng (s_id store_mng.store_id%TYPE,
+                        luna NUMBER,
+                        an NUMBER)
+    RETURN employee_mng.emp_id%TYPE;
+    
+    PROCEDURE p2_14_mng (s_id store_mng.store_id%TYPE);
+    
+    FUNCTION f2_14_mng (s_id store_mng.store_id%TYPE,
+                        an NUMBER,
+                        categorie category_mng.category_name%TYPE)
+    RETURN NUMBER;
+END p_14_mng;
+/
+
+
+CREATE OR REPLACE PACKAGE BODY p_14_mng AS
+	PROCEDURE p1_14_mng (s_id store_mng.store_id%TYPE) IS
+        s_id_invalid        EXCEPTION;
+        
+        o_profit        NUMBER(4);
+        o_numar         NUMBER(4);
+        m_profit        NUMBER(4);
+        
+        TYPE vector IS VARRAY(30) OF film_mng.film_id%TYPE;
+        f_id            vector;
+    BEGIN 
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        SELECT SUM(ord_price) INTO o_profit
+        FROM order_mng o
+        JOIN employee_mng e ON (o.emp_id = e.emp_id)
+        JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+        WHERE w_i.store_id = s_id 
+        AND EXTRACT (MONTH FROM ord_date) IN (3,4,5)
+        AND EXTRACT (YEAR FROM ord_date) = 2022;
+        
+        SELECT COUNT(ord_id) INTO o_numar
+        FROM order_mng o
+        JOIN employee_mng e ON (o.emp_id = e.emp_id)
+        JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+        WHERE w_i.store_id = s_id 
+        AND EXTRACT (MONTH FROM ord_date) IN (3,4,5)
+        AND EXTRACT (YEAR FROM ord_date) = 2022;
+        
+        IF NVL(o_numar,0) = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Magazinul introdus nu a procesat nicio comanda in primavara!');
+        ELSE
+            m_profit := o_profit / o_numar;
+            
+            IF m_profit < 75 THEN
+                SELECT film_id BULK COLLECT INTO f_id
+                FROM store_inventory
+                WHERE store_id = s_id;
+                
+                FOR i IN 1..f_id.COUNT LOOP
+                    UPDATE film_mng
+                    SET film_order_price = film_order_price - (film_order_price * 15 / 100)
+                    WHERE film_id = f_id(i);
+                END LOOP;
+                
+                DBMS_OUTPUT.PUT_LINE('Profit: ' || m_profit || ', update realizat!');
+            ELSE
+                DBMS_OUTPUT.PUT_LINE('Profit: ' || m_profit || ', update nerealizat!');
+            END IF;
+        END IF;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END p1_14_mng;
+
+
+    FUNCTION f1_14_mng (s_id store_mng.store_id%TYPE,
+                        luna NUMBER,
+                        an NUMBER)
+    RETURN employee_mng.emp_id%TYPE IS
+        s_id_invalid    EXCEPTION;
+        luna_invalida   EXCEPTION;
+        an_invalid      EXCEPTION;
+        
+        e_id            employee_mng.emp_id%TYPE;
+    BEGIN
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        IF luna > 12 OR luna < 1 THEN
+            RAISE luna_invalida;
+        END IF;
+        
+        IF an > EXTRACT (YEAR FROM SYSDATE) OR an < 2014 THEN
+            RAISE an_invalid;
+        END IF;
+        
+        SELECT e_cod INTO e_id
+        FROM (SELECT e.emp_id e_cod, ((SELECT COUNT(*) FROM order_mng o WHERE o.emp_id = e.emp_id AND EXTRACT (MONTH FROM o.ord_date) = luna AND EXTRACT (YEAR FROM o.ord_date) = an) +
+                                      (SELECT COUNT(*) FROM rental_mng r WHERE r.emp_id = e.emp_id AND EXTRACT (MONTH FROM r.rental_date) = luna AND EXTRACT (YEAR from r.rental_date) = an)) e_numar
+              FROM employee_mng e
+              JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+              WHERE w_i.store_id = s_id
+              ORDER BY e_numar DESC)
+        WHERE ROWNUM = 1;
+        
+        RETURN e_id;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN luna_invalida THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Luna introdusa este invalida!');
+            WHEN an_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Anul introdus este invalid!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END f1_14_mng;
+
+          
+    PROCEDURE p2_14_mng (s_id store_mng.store_id%TYPE) IS
+        s_id_invalid    EXCEPTION;
+        
+        TYPE tablou_indexat IS TABLE OF film_mng.film_title%TYPE INDEX BY PLS_INTEGER;
+        f_titlu         tablou_indexat;
+            
+        s_nume      store_mng.store_name%TYPE;
+        f_numar     NUMBER(4):= 0;
+    BEGIN
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        SELECT store_name INTO s_nume
+        FROM store_mng
+        WHERE store_id = s_id;
+        
+        SELECT f_titlu BULK COLLECT INTO f_titlu
+        FROM (SELECT f.film_title f_titlu, ((SELECT COUNT(*) FROM order_consists_of o WHERE o.film_id = f.film_id) + 
+                                            (SELECT COUNT(*) FROM rental_consists_of r WHERE r.film_id = f.film_id)) f_numar
+              FROM film_mng f
+              JOIN store_inventory s_i ON (f.film_id = s_i.film_id)
+              WHERE s_i.store_id = s_id
+              ORDER BY f_numar DESC)
+        WHERE ROWNUM < 6;
+        
+        DBMS_OUTPUT.PUT_LINE(s_nume || ' - Top 5 filme -');
+        FOR i IN 1..f_titlu.COUNT LOOP
+            DBMS_OUTPUT.PUT_LINE(f_numar + 1 || '. ' || f_titlu(i));
+            f_numar := f_numar + 1;
+        END LOOP;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END p2_14_mng;
+
+	
+	FUNCTION f2_14_mng (s_id store_mng.store_id%TYPE,
+                        an NUMBER,
+                        categorie category_mng.category_name%TYPE)
+    RETURN NUMBER IS
+        s_id_invalid        EXCEPTION;
+        an_invalid          EXCEPTION;
+        c_id                category_mng.category_id%TYPE;
+        
+        r_profit            NUMBER(4);
+        r_numar             NUMBER(4);
+        o_profit            NUMBER(4);
+        o_numar             NUMBER(4);
+        m_profit            NUMBER(4);
+    BEGIN
+        IF s_id > 5 OR s_id < 1 THEN
+            RAISE s_id_invalid;
+        END IF;
+        
+        IF an > EXTRACT (YEAR FROM SYSDATE) OR an < 2014 THEN
+            RAISE an_invalid;
+        END IF;
+        
+        SELECT category_id INTO c_id
+        FROM category_mng
+        WHERE UPPER(category_name) = UPPER(categorie);
+        
+        SELECT SUM(r.rental_price) INTO r_profit
+        FROM rental_mng r
+        JOIN rental_consists_of r_c_o ON (r.rental_id = r_c_o.rental_id)
+        JOIN film_mng f ON (r_c_o.film_id = f.film_id)
+        JOIN category_mng c ON (f.category_id = c.category_id)
+        WHERE c.category_id = c_id AND EXTRACT (YEAR FROM r.rental_date) = an;
+        
+        SELECT COUNT(r.rental_id) INTO r_numar
+        FROM rental_mng r
+        JOIN rental_consists_of r_c_o ON (r.rental_id = r_c_o.rental_id)
+        JOIN film_mng f ON (r_c_o.film_id = f.film_id)
+        JOIN category_mng c ON (f.category_id = c.category_id)
+        WHERE c.category_id = c_id AND EXTRACT (YEAR FROM r.rental_date) = an;
+        
+        SELECT SUM(o.ord_price) INTO o_profit
+        FROM order_mng o
+        JOIN order_consists_of o_c_o ON (o.ord_id = o_c_o.ord_id)
+        JOIN film_mng f ON (o_c_o.film_id = f.film_id)
+        JOIN category_mng c ON (f.category_id = c.category_id)
+        WHERE c.category_id = c_id AND EXTRACT (YEAR FROM o.ord_date) = an;
+        
+        SELECT COUNT(o.ord_id) INTO o_numar
+        FROM order_mng o
+        JOIN order_consists_of o_c_o ON (o.ord_id = o_c_o.ord_id)
+        JOIN film_mng f ON (o_c_o.film_id = f.film_id)
+        JOIN category_mng c ON (f.category_id = c.category_id)
+        WHERE c.category_id = c_id AND EXTRACT (YEAR FROM o.ord_date) = an;
+        
+        m_profit := (NVL(r_profit, 0) + NVL(o_profit, 0)) / (NVL(r_numar, 0) + NVL(o_numar, 0));
+        RETURN m_profit;
+        
+        EXCEPTION
+            WHEN s_id_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Codul magazinului introdus este invalid!');
+            WHEN an_invalid THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Anul introdus este invalid!');
+            WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Categoria introdusa este invalida!');
+            WHEN OTHERS THEN
+                RAISE_APPLICATION_ERROR(-20000, 'Alta eroare!');
+    END f2_14_mng;
+END p_14_mng;
+
+Apel:
+BEGIN
+    p_14_mng.p1_14_mng(1);
+    DBMS_OUTPUT.NEW_LINE;
+    
+    DBMS_OUTPUT.PUT_LINE(p_14_mng.f1_14_mng(1, 3, 2019));
+    DBMS_OUTPUT.NEW_LINE;
+    
+    p_14_mng.p2_14_mng(1);
+    DBMS_OUTPUT.NEW_LINE;
+    
+    DBMS_OUTPUT.PUT_LINE(p_14_mng.f2_14_mng(1, 2019, 'COMEDIE'));
+END;
+/
+
+
