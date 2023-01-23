@@ -1,5 +1,3 @@
-// CAFENEA "SELECT CAFE" CU 3 CASE DE MARCAT FUNCTIONALE: 5 CLIENTI PER CASA
-
 #include <stdio.h>
 #include <pthread.h>
 #include <errno.h>
@@ -113,18 +111,18 @@ void* thread_plata (void* pereche)
 
 int main()
 {
-	// INITALIZARE ATRIBUTE MUTEX
-	pthread_mutexattr_init(&attrmutex);
-	// DAU PERMISIUNE MUTEXTULUI SA FIE OPERAT DE ORICE PROCES CARE ARE ACCES LA MEMORIA ALOCATA MUTEXULUI
-    	pthread_mutexattr_setpshared(&attrmutex, PTHREAD_PROCESS_SHARED);
+    // INITALIZARE ATRIBUTE MUTEX
+    pthread_mutexattr_init(&attrmutex);
+    // DAU PERMISIUNE MUTEXTULUI SA FIE OPERAT DE ORICE PROCES CARE ARE ACCES LA MEMORIA ALOCATA MUTEXULUI
+        pthread_mutexattr_setpshared(&attrmutex, PTHREAD_PROCESS_SHARED);
     	
     // INITIALIZARE MUTEX
-	pmutex = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(pmutex, &attrmutex);
+    pmutex = malloc(sizeof(pthread_mutex_t));
+    pthread_mutex_init(pmutex, &attrmutex);
 	
-	// INITIALIZARE MEMORIE PARTAJATA
-	const char* shm_name = "Monitor";
-	int shm_fd = shm_open(shm_name,O_CREAT|O_RDWR,S_IRUSR|S_IWUSR);
+    // INITIALIZARE MEMORIE PARTAJATA
+    const char* shm_name = "Monitor";
+    int shm_fd = shm_open(shm_name,O_CREAT|O_RDWR,S_IRUSR|S_IWUSR);
     if (shm_fd < 0)
     {
         perror("EROARE - shm_open!");
