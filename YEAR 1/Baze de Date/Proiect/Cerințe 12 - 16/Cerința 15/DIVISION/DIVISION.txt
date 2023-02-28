@@ -1,0 +1,37 @@
+CERINȚĂ:
+Să se listeze clienții care au dat o comandă în aceeași zi cu o închirierea, împreună cu următoarele informații:
+	numele și prenumele clientului;
+	data în care a fost procesată comanda și angajatul care a procesat-o;
+	data în care a fost procesată închirierea și angajatul care a procesat-o.
+
+COD:
+SELECT cust_last || ' ' || cust_first NUME_CLIENT, DATA_COMANDA, ANGAJAT_COMANDA, DATA_INCHIRIERE, ANGAJAT_INCHIRIERE
+FROM customer_mng c,
+    (SELECT c_m.cust_id ID, ord_date DATA_COMANDA, rental_date DATA_INCHIRIERE, e_o.emp_first || ' ' || e_o.emp_last ANGAJAT_COMANDA, e_r.emp_first || ' ' || e_r.emp_last ANGAJAT_INCHIRIERE
+     FROM customer_mng c_m
+     JOIN order_mng o ON (c_m.cust_id = o.cust_id)
+     JOIN employee_mng e_o ON (o.emp_id = e_o.emp_id)
+     JOIN rental_mng r ON (c_m.cust_id = r.cust_id)
+     JOIN employee_mng e_r ON (r.emp_id = e_r.emp_id)
+     WHERE ord_date = rental_date) C
+WHERE c.cust_id = C.ID 
+AND NOT EXISTS ((SELECT c.cust_id
+                 FROM customer_mng c
+                 JOIN order_mng o ON (c.cust_id = o.cust_id)
+                 JOIN rental_mng r ON (c.cust_id = r.cust_id)
+                 WHERE ord_date = rental_date)
+                MINUS
+                (SELECT c.cust_id
+                 FROM customer_mng c));
+                 
+                 
+                 
+
+
+
+
+
+                   
+
+
+     

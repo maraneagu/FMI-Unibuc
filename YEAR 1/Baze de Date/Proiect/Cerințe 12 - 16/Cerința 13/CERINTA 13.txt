@@ -1,0 +1,50 @@
+-- 1.
+
+CERINȚĂ:
+Să se actualizeze prețul unei închirieri care are în componența sa un film din categoria „Muzical”, astfel:
+	prețul închirierii mai mic sau egal cu 30 lei, discount-ul va fi în valoare de 10%;
+	prețul închirierii între 30 și 70 de lei, discount-ul va fi în valoare de 15%;
+	prețul închirierii între 70 și 100 de lei, discount-ul va fi în valoare de 20%;
+
+UPDATE rental_mng
+SET rental_price = 
+    (CASE
+        WHEN rental_price <= 30 THEN rental_price - rental_price * 10 / 100
+        WHEN rental_price > 30 AND rental_price <= 70 THEN rental_price - rental_price * 15 / 100
+        WHEN rental_price > 70 AND rental_price <= 100 THEN rental_price - rental_price * 20 / 100
+        WHEN rental_price > 100 THEN rental_price - rental_price * 25 / 100
+    END)
+WHERE rental_id IN (SELECT r.rental_id
+                    FROM rental_mng r
+                    JOIN rental_consists_of r_c ON (r.rental_id = r_c.rental_id)
+                    JOIN film_mng f ON (r_c.film_id = f.film_id)
+                    JOIN category_mng c ON (f.category_id = c.category_id)
+                    WHERE UPPER(category_name) = 'MUZICAL');
+
+
+-- 2.
+
+CERINȚĂ:
+Pentru Ziua Mamei și Ziua Femeii, „The Velvet Stage” mărește data de retur a închirierilor făcute în perioada 22 februarie – 8 martie. Să se actualizeze valoarea datei de retur pentru aceste închirieri cu o săptămână în plus.
+
+UPDATE rental_mng
+SET rental_return_date = rental_return_date + 7
+WHERE rental_id IN (SELECT r.rental_id
+                    FROM rental_mng r
+                    WHERE rental_date >= TO_DATE('22-02-2022') AND rental_date <= TO_DATE('08-03-2022'));
+                    
+
+-- 3.
+
+CERINȚĂ:
+Să se șteargă din comenzile făcute în perioada 22 februarie – 8 martie, filmele care au traduceri în limba franceză.
+
+DELETE FROM order_consists_of
+WHERE ord_id IN (SELECT o.ord_id
+                 FROM order_mng o
+                 WHERE o.ord_date >= TO_DATE('22-02-2022') AND o.ord_date <= TO_DATE('08-03-2022'))
+AND film_id IN (SELECT f.film_id
+                FROM film_mng f
+                JOIN translated_to t_t ON (f.film_id = t_t.film_id)
+                JOIN language_mng l ON (t_t.language_id = l.language_id)
+                WHERE UPPER(language_name) = 'FRANCEZA');

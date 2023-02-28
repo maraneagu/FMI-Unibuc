@@ -1,0 +1,21 @@
+CERINȚĂ: Să se trimită prin email, în cazul în care a fost completat, un anunț despre maratonul de filme de groază, clienților magazinului „The Velvet Stage Constanta”, care au închiriat cel puțin un film din acest gen.
+
+COD:
+SELECT cust_last NUME, cust_first PRENUME, 
+       DECODE(NVL(cust_email, NULL), NULL, 'EMAIL NECOMPLETAT', 'ANUNT!: PE DATA DE 30.10.2022, "THE VELVET STAGE" ORGANIZEAZA UN MARATON DE FILME HORROR!, EMAIL: ' || cust_email) ANUNT_OFERTA,
+       NUMAR_INCHIRIERI
+FROM customer_mng,
+    (SELECT c.cust_id ID, COUNT(*) NUMAR_INCHIRIERI
+     FROM customer_mng c
+     JOIN rental_mng r ON (c.cust_id = r.cust_id)
+     JOIN employee_mng e ON (r.emp_id = e.emp_id)
+     JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+     JOIN store_mng s ON (w_i.store_id = s.store_id)
+     JOIN rental_consists_of r_c ON (r.rental_id = r_c.rental_id)
+     JOIN film_mng f ON (r_c.film_id = f.film_id)
+     JOIN category_mng cy ON (f.category_id = cy.category_id)
+     WHERE LOWER(category_name) = 'groaza'
+     AND UPPER(store_name) = 'THE VELVET STAGE CONSTANTA'
+     GROUP BY c.cust_id) R
+WHERE cust_id = R.ID          
+ORDER BY NUMAR_INCHIRIERI DESC;

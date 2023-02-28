@@ -1,0 +1,24 @@
+CERINȚĂ:
+Să se implementeze o vizualizare care să listeze clienții care au comandat cel puțin un film regizat de Josh Whedon.
+
+COD:
+CREATE VIEW customer_view_mng AS
+SELECT cust_last NUME, cust_first PRENUME, cust_email EMAIL
+FROM customer_mng c
+JOIN order_mng o ON (c.cust_id = o.cust_id)
+JOIN order_consists_of o_c ON (o.ord_id = o_c.ord_id)
+JOIN film_mng f ON (o_c.film_id = f.film_id)
+JOIN director_mng d ON (f.director_id = d.director_id)
+WHERE c.cust_email IS NOT NULL AND UPPER(director_last) = 'WHEDON' AND UPPER(director_first) = 'JOSH'
+WITH CHECK OPTION;
+
+INSERT INTO customer_view_mng 
+VALUES ('Neagu', 'Mara', NULL);
+
+DELETE FROM customer_view_mng
+WHERE LENGTH(EMAIL) > 22;
+
+ROLLBACK;
+DROP VIEW customer_view_mng;
+
+

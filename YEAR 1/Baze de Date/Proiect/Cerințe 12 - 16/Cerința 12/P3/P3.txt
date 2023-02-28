@@ -1,0 +1,38 @@
+CERINȚĂ:
+Pentru comenzile plasate în perioada 1 – 14 februarie, se va aplica un discount asupra filmelor din categoria „Romantic”:
+	prețul comenzii mai mic sau egal cu 50 lei, discount-ul va fi în valoare de 10%;
+	prețul comenzii între 50 și 100 de lei, discount-ul va fi în valoare de 15%;
+	prețul comenzii între 100 și 200 de lei, discount-ul va fi în valoare de 20%;
+	prețul comenzii peste 200 de lei, discount-ul va fi în valoare de 25%.
+Să se listeze numele clientului, prețul inițial al comenzii, discount-ul ce va fi aplicat asupra filmelor romantice din comandă și noul preț.
+
+COD:
+SELECT cust_last NUME, cust_first PRENUME, PRET_INITIAL, 
+CASE
+    WHEN PRET_INITIAL <= 50 THEN 10
+    WHEN PRET_INITIAL > 50 AND PRET_INITIAL <= 100 THEN 15
+    WHEN PRET_INITIAL > 100 AND PRET_INITIAL <= 200 THEN 20
+    WHEN PRET_INITIAL > 200 THEN 25
+END AS DISCOUNT,
+CASE 
+    WHEN PRET_INITIAL <= 50 THEN (PRET_INITIAL - PRET_FILME_ROMANTICE / 10)
+    WHEN PRET_INITIAL > 50 AND PRET_INITIAL <= 100 THEN (PRET_INITIAL - PRET_FILME_ROMANTICE * 15 / 100)
+    WHEN PRET_INITIAL > 100 AND PRET_INITIAL <= 200 THEN (PRET_INITIAL - PRET_FILME_ROMANTICE * 20 / 100)
+    WHEN PRET_INITIAL > 200 THEN (PRET_INITIAL - PRET_FILME_ROMANTICE * 25 / 100)
+END AS PRET_DUPA_DISCOUNT
+FROM (SELECT o.ord_id, cust_id ID, ord_price PRET_INITIAL, SUM(number_of_films * film_order_price) PRET_FILME_ROMANTICE
+      FROM order_mng o
+      JOIN order_consists_of o_c ON (o.ord_id = o_c.ord_id)
+      JOIN film_mng f ON (o_c.film_id = f.film_id)
+      JOIN category_mng c ON (f.category_id = c.category_id)
+      WHERE UPPER(category_name) = 'ROMANTIC'
+      AND EXTRACT (MONTH FROM ord_date) = 2
+      AND EXTRACT (DAY FROM ord_date) >= 1 AND EXTRACT (DAY FROM ord_date) <= 14
+      GROUP BY o.ord_id, cust_id, ord_price) F_R,
+      customer_mng c
+WHERE cust_id = F_R.ID;
+      
+
+
+      
+

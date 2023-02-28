@@ -1,0 +1,23 @@
+CERINȚĂ:
+Pentru fiecare categorie de film, să se listeze atât filmul din acea categorie ce are cel mai mare rating, cât și regizorul acestuia.
+
+COD:
+SELECT film_title TITLU_FILM,
+      (SELECT director_first || ' ' || director_last
+       FROM director_mng d
+       JOIN film_mng f_m ON (d.director_id = f_m.director_id)
+       WHERE UPPER(f_m.film_title) = UPPER(f.film_title)) REGIZOR,
+       
+      (SELECT category_name 
+       FROM category_mng 
+       WHERE category_id = R.ID_CATEGORIE) NUME_CATEGORIE,
+       
+       R.RATING_MAXIM RATING_MAXIM
+FROM film_mng f, 
+    (SELECT MAX(f_m.film_rating) RATING_MAXIM, f_m.category_id ID_CATEGORIE 
+     FROM film_mng f_m 
+     GROUP BY f_m.category_id) R
+WHERE f.film_rating = R.RATING_MAXIM and f.category_id = ID_CATEGORIE
+ORDER BY NUME_CATEGORIE;
+
+

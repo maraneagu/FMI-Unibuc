@@ -1,0 +1,32 @@
+CERINȚĂ:
+Să se listeze pentru „The Velvet Stage” filmul care aduce cel mai mare profit: numărul de vânzări și închirieri cumulate.
+
+COD:
+WITH
+    O AS (SELECT film_title TITLU, SUM(o_c.number_of_films) PROFIT
+          FROM film_mng f
+          JOIN order_consists_of o_c ON (f.film_id = o_c.film_id)
+          JOIN order_mng o ON (o_c.ord_id = o.ord_id)
+          JOIN works_in w_i ON (o.emp_id = w_i.emp_id)
+          JOIN store_mng s ON (w_i.store_id = s.store_id)
+          WHERE UPPER(s.store_name) = 'THE VELVET STAGE'
+          GROUP BY film_title),
+    R AS (SELECT film_title TITLU, COUNT(r_c.film_id) PROFIT
+          FROM film_mng f
+          JOIN rental_consists_of r_c ON (f.film_id = r_c.film_id)
+          JOIN rental_mng r ON (r_c.rental_id = r.rental_id)
+          JOIN works_in w_i ON (r.emp_id = w_i.emp_id)
+          JOIN store_mng s ON (w_i.store_id = s.store_id)
+          WHERE UPPER(s.store_name) = 'THE VELVET STAGE'
+          GROUP BY film_title)
+SELECT TITLU, PROFIT_VANZARI, PROFIT_INCHIRIERI, PROFIT_TOTAL
+FROM (SELECT O.TITLU TITLU, O.PROFIT PROFIT_VANZARI, R.PROFIT PROFIT_INCHIRIERI, (O.PROFIT + R.PROFIT) PROFIT_TOTAL
+      FROM O JOIN R ON (O.TITLU = R.TITLU)
+      ORDER BY PROFIT_TOTAL DESC)
+WHERE ROWNUM = 1;
+
+    
+
+
+
+

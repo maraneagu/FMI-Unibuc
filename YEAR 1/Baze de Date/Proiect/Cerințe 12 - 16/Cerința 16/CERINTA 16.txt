@@ -1,0 +1,47 @@
+CERINTA: Sa se listeze numele filmelor ce fac parte din stocul magazinului "The Velvet Stage", din categoria "Comedie".
+
+COD NEOPTIMIZAT:
+WITH
+    M AS (SELECT f.film_id, film_title
+          FROM film_mng f
+          JOIN store_inventory s_i ON (f.film_id = s_i.film_id)
+          JOIN store_mng s ON (s_i.store_id = s.store_id)
+          WHERE UPPER(store_name) = 'THE VELVET STAGE'),
+    C AS (SELECT film_id, film_title
+          FROM film_mng f
+          JOIN category_mng c ON (f.category_id = c.category_id)
+          WHERE UPPER(category_name) = 'COMEDIE')
+SELECT M.film_title TITLU_FILM
+FROM M JOIN C ON (M.film_id = C.film_id);
+
+RELATIA ALGEBRICA NEOPTIMIZATA:
+R1 = SELECT(STORE_MNG, store_name = 'THE VELVET STAGE')
+R2 = SEMIJOIN(STORE_INVENTORY, R1)
+R3 = SEMIJOIN(FILM_MNG, R2)
+R4 = PROJECT(R3, film_id, film_title)
+R5 = SELECT(CATEGORY_MNG, category_name = 'COMEDIE')
+R6 = SEMIJOIN(FILM_MNG, R5)
+R7 = PROJECT(R6, film_id, film_title)
+R8 = INTERSECT(R4, R7)
+REZULTAT = R9 = PROJECT(R8, film_title)
+
+COD OPTIMIZAT:
+SELECT film_title
+FROM film_mng
+WHERE film_id IN (SELECT s_i.film_id
+                  FROM store_inventory s_i
+                  JOIN store_mng s ON (s_i.store_id = s.store_id)
+                  WHERE UPPER(store_name) = 'THE VELVET STAGE')
+AND category_id IN (SELECT c.category_id
+                    FROM category_mng c 
+                    WHERE UPPER(category_name) = 'COMEDIE');
+
+RELATIA ALGEBRICA OPTIMIZATA:
+R1 = SELECT(STORE_MNG, store_name = 'THE VELVET STAGE')
+R2 = SEMIJOIN(STORE_INVENTORY, R1)
+R3 = SEMIJOIN(FILM_MNG, R2)
+R4 = PROJECT(R3, film_id, film_title, category_id)
+R5 = SELECT(CATEGORY_MNG, category_name = 'COMEDIE')
+R6 = PROJECT(R5, category_id)
+R7 = SEMIJOIN(R4, R6)
+REZULTAT = R8 = PROJECT(R7, film_title)

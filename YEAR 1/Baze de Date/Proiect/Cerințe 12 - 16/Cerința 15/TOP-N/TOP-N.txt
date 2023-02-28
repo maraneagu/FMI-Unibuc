@@ -1,0 +1,16 @@
+CERINȚĂ:
+Pentru fiecare magazin din franciză, să se listeze clientul ce a plasat cel mai mare număr de comenzi.
+
+COD:
+SELECT store_name,
+      (SELECT 'NUME CLIENT: ' || NUME_CLIENT || ' - NUMAR VANZARI: ' || NUMAR_COMENZI
+       FROM (SELECT w_i.store_id ID_MAGAZIN, c.cust_first || ' ' || c.cust_last NUME_CLIENT, COUNT(o.cust_id) NUMAR_COMENZI
+             FROM customer_mng c
+             JOIN order_mng o ON (c.cust_id = o.cust_id)
+             JOIN employee_mng e ON (o.emp_id = e.emp_id)
+             JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+             GROUP BY w_i.store_id, c.cust_first, c.cust_last 
+             ORDER BY ID_MAGAZIN, NUMAR_COMENZI DESC, NUME_CLIENT),
+             store_mng s_m
+       WHERE s_m.store_id = ID_MAGAZIN AND s_m.store_id = s.store_id AND ROWNUM = 1) TOP_CLIENT
+FROM store_mng s; 

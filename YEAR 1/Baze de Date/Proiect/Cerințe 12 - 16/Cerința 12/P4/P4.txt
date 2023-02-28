@@ -1,0 +1,55 @@
+CERINȚĂ:
+Pentru fiecare magazin din franciză, să se listeze numele magazinului, numărul de angajați, numărul de vânzări din ultimul an, filmul ce a fost comandat cel mai mult în ultimul an, numărul de închirieri din ultimul an și filmul ce a fost închiriat de cel mai multe ori.
+
+COD:
+SELECT store_name NUME,
+      (SELECT COUNT(*)
+       FROM employee_mng e
+       JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+       WHERE w_i.store_id = s.store_id) NUMAR_ANGAJATI,
+       
+      (SELECT COUNT(*) 
+       FROM order_mng o
+       JOIN employee_mng e ON (o.emp_id = e.emp_id)
+       JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+       WHERE w_i.store_id = s.store_id
+       AND EXTRACT (YEAR FROM ord_date) = 2022) NUMAR_VANZARI_2022,
+       
+      (SELECT 'TITLU: ' || TITLU || ' - NUMAR VANZARI: ' || NUMAR_VANZARI
+       FROM store_mng s_m,
+           (SELECT w_i.store_id ID, film_title TITLU, COUNT(*) NUMAR_VANZARI
+            FROM film_mng f
+            JOIN order_consists_of o_c ON (f.film_id = o_c.film_id)
+            JOIN order_mng o ON (o_c.ord_id = o.ord_id)
+            JOIN employee_mng e ON (o.emp_id = e.emp_id)
+            JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+            WHERE EXTRACT (YEAR FROM ord_date) = 2022
+            GROUP BY w_i.store_id, film_title
+            ORDER BY ID, NUMAR_VANZARI DESC) F
+       WHERE s_m.store_id = F.ID AND s_m.store_id = s.store_id AND ROWNUM = 1) FILM_VANZARI_2022,
+       
+      (SELECT COUNT(*) 
+       FROM rental_mng r
+       JOIN employee_mng e ON (r.emp_id = e.emp_id)
+       JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+       WHERE w_i.store_id = s.store_id
+       AND EXTRACT (YEAR FROM rental_date) = 2022) NUMAR_INCHIRIERI_2022,
+       
+      (SELECT 'TITLU: ' || TITLU || ' - NUMAR INCHIRIERI: ' || NUMAR_INCHIRIERI
+       FROM store_mng s_m,
+           (SELECT w_i.store_id ID, film_title TITLU, COUNT(*) NUMAR_INCHIRIERI
+            FROM film_mng f
+            JOIN rental_consists_of r_c ON (f.film_id = r_c.film_id)
+            JOIN rental_mng r ON (r_c.rental_id = r.rental_id)
+            JOIN employee_mng e ON (r.emp_id = e.emp_id)
+            JOIN works_in w_i ON (e.emp_id = w_i.emp_id)
+            WHERE EXTRACT (YEAR FROM rental_date) = 2022
+            GROUP BY w_i.store_id, film_title
+            ORDER BY ID, NUMAR_INCHIRIERI DESC) F
+       WHERE s_m.store_id = F.ID AND s_m.store_id = s.store_id AND ROWNUM = 1) FILM_INCHIRIERI_2022
+FROM store_mng s
+ORDER BY (NUMAR_VANZARI_2022 + NUMAR_INCHIRIERI_2022) DESC;
+
+
+
+

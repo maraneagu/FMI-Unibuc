@@ -1,0 +1,18 @@
+CERINȚĂ:
+Pentru fiecare client, să se listeze numărul de închirieri făcute de acesta care conțin cel puțin un film tradus în limba spaniolă, inclusiv acei clienți care nu au făcut nicio închiriere în general sau nicio închiriere care respectă această condiție.
+
+COD:
+SELECT cust_last || ' ' || cust_first NUME_CLIENT, SUM(CASE WHEN UPPER(language_name) = 'SPANIOLA' THEN 1 ELSE 0 END) NUMAR_INCHIRIERI
+FROM customer_mng c
+LEFT OUTER JOIN rental_mng r ON (c.cust_id = r.cust_id)
+LEFT OUTER JOIN rental_consists_of r_c ON (r.rental_id = r_c.rental_id)
+LEFT OUTER JOIN film_mng f_r ON (r_c.film_id = f_r.film_id)
+LEFT OUTER JOIN translated_to t_t ON (f_r.film_id = t_t.film_id)
+LEFT OUTER JOIN language_mng l ON (t_t.language_id = l.language_id)
+GROUP BY cust_last, cust_first
+ORDER BY NUMAR_INCHIRIERI;
+
+
+
+
+
