@@ -1,0 +1,431 @@
+
+	body {
+        background-color:Beige;
+    }
+
+	h1{
+        font-family: "Century Schoolbook";
+        font-size: 480%;
+        text-align: center;
+        background: -webkit-linear-gradient(tomato,DarkSlateGray);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+	p {
+        position: absolute;
+        top: 110px;
+        margin-left: 420px;
+        color: DarkSlateGray;
+        font-family: "Arial Narrow";
+        font-size: 150%;
+    } 
+
+	h2 {
+        margin-top:13px;
+        margin-bottom:3px;
+        font-family:"Century Schoolbook";
+        font-size: 46px;
+        background: -webkit-linear-gradient(DarkSlateGray,Tomato);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+	h3 {
+        margin-top:0px;
+        color: black;
+        font-family:"Arial Narrow";
+        font-size:27px;
+        text-align: center;
+    }
+
+	h4 {
+        color:black; 
+        font-family:"Arial Narrow"; 
+        font-size:22px;
+        text-align:justify;
+    }
+
+	h5 {
+        color:Cornsilk;
+        font-family:"Century Schoolbook";
+        font-size:115%;
+        text-align:center;
+    }
+
+	h6 {
+        color:Cornsilk;
+        font-family:"Century Schoolbook";
+        font-size:80%;
+        text-align:center;
+    }
+	
+	a:link,a:visited {
+        text-decoration:none;
+        color:white;
+        text-align:center;
+    }
+
+	a:hover {
+        color:tomato;
+    }
+
+	ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: DarkSlateGray;
+    }
+
+	li {
+        float: left;
+    }
+	li a, .dropbutton {
+        display: inline-block;
+        color: white;
+        font-family: "Century Schoolbook";
+        font-size: 120%;
+        text-align: center;
+        padding: 20px 20px;
+        text-decoration: none;
+    }
+	li a:hover, .dropdown:hover .dropbutton {
+        background-color: #111;
+    }
+    li .dropdown {
+		display: inline-block;
+	}
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: bisque;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+	.dropdown-content a {
+		color: red;
+		padding: 20px 20px;
+		text-decoration: none;
+		display: block;
+		text-align: center;
+	}
+	.dropdown-content a:hover {
+		background-color: rgb(104,17,2);
+		color: bisque;
+	}
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+
+	.card {
+        text-align: center;
+        background-color:white;
+        border:5px solid tomato;
+        padding: 20px;
+        margin-top: 20px;
+        margin-left: 200px;
+        margin-right: 200px;
+    }
+	.cardt {
+        text-align: center;
+        background-color:white;
+        padding: 20px;
+        margin-top: 20px;
+        margin-left: 150px;
+        margin-right: 150px;
+    }
+
+	* {box-sizing: border-box}
+	.mySlides {
+        display: none;
+    } 
+    .mySlides2 {
+        display: none;
+    }
+    .mySlides3 {
+        display: none;
+    }  
+	.mySlides4 {
+        display: none;
+    }
+    .mySlides5 {
+        display: none;
+    } 
+    .mySlides6 {
+        display: none;
+    }
+    .mySlides7 {
+        display: none;
+    }
+    .mySlides8 {
+        display: none;
+    }
+
+	img {
+        vertical-align: middle;
+        height:400px;
+    }
+
+	.slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+	.prev, .next {
+        cursor: pointer; 
+        position: absolute; 
+        top: 50%;
+        width: auto; 
+        padding: 16px; 
+        margin-top: -22px; 
+        color: white; 
+        font-weight: bold;
+        font-size: 18px; 
+        transition: 0.6s ease; 
+        border-radius: 0 3px 3px 0; 
+        user-select: none;
+    }
+	.prev {
+        left: 0;
+        border-radius: 3px 0 0 3px;
+    }
+	.next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+	.prev:hover, .next:hover {
+        background-color: DarkSlateGray;
+    }
+
+	.text {
+        font-family: "Century Schoolbook"; 
+        color:Cornsilk; 
+        font-size: 20px; 
+        padding: 8px 12px; 
+        position: absolute; 
+        bottom: 8px; 
+        width: 100%; 
+        text-align: center;
+        background-color:DarkSlateGray;
+    }
+
+	.dot {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot2 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot3 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot4 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot5 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot6 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot7 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+    .dot8 {
+        cursor: pointer;
+        display: inline-block;
+        background-color: #bbb;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+    }
+
+	.active, .dot:hover {
+        background-color: red;
+    }
+    .active, .dot2:hover {
+        background-color: red;
+    }
+    .active, .dot3:hover {
+        background-color: red;
+    }
+    .active, .dot4:hover {
+        background-color: red;
+    }
+    .active, .dot5:hover {
+        background-color: red;
+    }
+    .active, .dot6:hover {
+        background-color: red;
+    }
+    .active, .dot7:hover {
+        background-color: red;
+    }
+    .active, .dot8:hover {
+        background-color: red;
+    }
+
+	.fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+    }
+	@-webkit-keyframes fade {
+        from {opacity: .4} to {opacity: 1}
+    }
+	@keyframes fade {
+        from {opacity: .4} to {opacity: 1}
+    }
+
+	#more {
+        display: none;
+    } 
+    #more2 {
+        display: none;
+    }
+    #more3 {
+        display: none;
+    }
+	#more4 {
+        display: none;
+    } 
+    #more5 {
+        display: none;
+    }	
+    #more6 {
+        display: none;
+    }
+	#more7 {
+        display: none;
+    } 
+    #more8 {
+        display: none;
+    } 
+
+	button {
+        user-select:none; 
+        -webkit-user-select:none; 
+        -moz-user-select:none; 
+        -ms-user-select:none;
+        cursor:pointer; 
+        padding:8px; 
+        font-size:20px; 
+        background:tomato; 
+        color:white; 
+        font-family:"Century Schoolbook"; 
+        border:none;
+        outline-color:tomato;
+    }
+
+	.footer {
+        background-color: DarkSlateGray;
+        padding: 7px;
+        text-align: center;
+        margin-top:70px;
+    }
+
+    .socialmedia{
+        background-color: beige;
+        text-align: center;
+    }
+
+	.fa {
+        padding: 20px;
+        font-size: 30px;
+        width: 70px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px; 
+        border-radius: 50%;
+    }
+	.fa:hover {
+        opacity: 0.7;
+    }
+	.fa-facebook {
+        background: #3B5998;
+        color: white;
+        align-self: center;
+    }
+	.fa-youtube {
+        background: #bb0000;
+        color: white;
+    }
+	.fa-instagram {
+        background: #125688;
+        color: white;
+    }
+	.fa-twitter {
+        background: #55ACEE;
+        color: white;
+    }
+	.fa-google {
+        background: #dd4b39;
+        color: white;
+    }
+	.fa-yahoo {
+        background: #430297;
+        color: white;
+    }
+	.fa-pinterest {
+        background: #cb2027;
+        color: white;
+    }
+	.fa-tumblr {
+        background: #2c4762;
+        color: white;
+    }
+	.fa-linkedin {
+        background: #007bb5;
+        color: white;
+    }

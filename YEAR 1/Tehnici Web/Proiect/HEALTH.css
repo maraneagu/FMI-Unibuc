@@ -1,0 +1,248 @@
+	body {
+		background-color:black;
+	}
+	h1 {
+		font-family: "Century Schoolbook";
+		font-size: 480%;
+		text-align:center;
+		color:tomato;
+	}
+	h2 {
+		color:black; 
+		font-family: "Arial Narrow"; 
+		font-size: 22px;
+		text-align: center;
+	}
+	h3 {
+		color:DarkSlateGray;
+		font-family: "Century Schoolbook"; 
+		font-size: 19px;
+	} 
+	h8 {
+		color:bisque;
+		font-family: "Century Schoolbook";
+		font-size: 115%;
+		text-align:center;
+	}
+	h9 {
+		color:rgb(250, 213, 207);
+		font-family: "Century Schoolbook";
+		font-size: 80%;
+		text-align: center;
+	}
+	p {
+		position: absolute;
+		top: 110px;
+		left: 470px;
+		font-family: "Arial Narrow";
+		font-size: 150%;
+		background: -webkit-linear-gradient(tomato,DarkRed);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	a:link,a:visited {
+		text-decoration: none;
+		color:white;
+	}
+	a:hover {
+		color:red;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: DarkSlateGray;
+	}
+	li {
+		float: left;
+	}
+	li a, .dropbutton {
+		display: inline-block;
+		font-family: "Century Schoolbook";
+		font-size: 120%;
+		text-align: center;
+		padding: 20px 20px;
+		text-decoration: none;
+	}
+	li a:hover, .dropdown:hover {
+		background-color: #111;
+	}
+	li .dropdown {
+		display: inline-block;
+	}
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: bisque;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+	.dropdown-content a {
+		color: red;
+		padding: 20px 20px;
+		text-decoration: none;
+		display: block;
+		text-align: center;
+	}
+	.dropdown-content a:hover {
+		background-color: rgb(104,17,2);
+		color: bisque;
+	}
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+
+	.container {
+		position: relative;
+		width: 50%;
+	}
+	.image {
+		opacity: 1;
+		display: block;
+		width: 100%;
+		height: auto;
+		transition: .5s ease;
+		backface-visibility: hidden;
+	}
+	.middle {
+		transition: .5s ease;
+		opacity: 0;
+		position: absolute;
+		top: 50%;
+		left: 165px;
+		transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		text-align: center;
+	}
+	.container:hover .image {
+		opacity: 0.3;
+	}
+	.container:hover .middle {
+		opacity: 1;
+	}
+	.text {
+		background-color:tomato;
+		color: white;
+		font-family: "Century Schoolbook";
+		font-size: 18px;
+		padding: 16px 32px;
+	}
+
+	* {box-sizing: border-box;}
+	.column {
+		float: left;
+		width: 25%;
+		padding: 8px;
+	}
+	.column2 {
+		float: left;
+		width: 20%;
+		padding: 5px;
+	}
+
+	/* Clearfix (clear floats) */.row::after {content: "";clear: both;display: table;}
+	
+	.card {
+		background-color:CornSilk;
+		padding: 10px;
+		margin-top: 5px;
+		border-radius: 10%;
+	}
+
+	#more1 {display: none;} #more2 {display: none;} #more3 {display: none;}
+	#more4 {display: none;} #more5 {display: none;} #more6 {display: none;}
+	#more7 {display: none;} #more8 {display: none;} #more9 {display: none;}
+	#more10 {display: none;} #more11 {display: none;} #more12 {display: none;}
+
+	button {
+		user-select: none; 
+		-webkit-user-select: none; 
+		-moz-user-select: none; 
+		-ms-user-select: none;
+		cursor: pointer; 
+		padding:8px; 
+		font-size: 20px; 
+		background:tomato; 
+		color:white; 
+		font-family: "Century Schoolbook"; 
+		border:none; 
+		outline-color:tomato;
+		border-radius: 10%;
+		margin-left: 40%;
+	}
+
+	.footer {
+		background-color: darkslategray;
+		padding: 20px;
+		text-align: center;
+		margin-top: 70px;
+	}
+	.fa {
+		padding: 20px;
+		font-size: 30px;
+		width: 70px;
+		text-align: center;
+		text-decoration: none;
+		margin: 5px 2px; 
+		border-radius: 50%;
+	}
+	.fa:hover {
+		opacity: 0.7;
+	}
+	.fa-facebook {
+		background: #3B5998;
+		color: white;
+	}
+	.fa-youtube {
+		background: #bb0000;
+		color: white;
+	}
+	.fa-instagram {
+		background: #125688;
+		color: white;
+	}
+	.fa-tumblr {
+		background: #2c4762;
+		color: white;
+	}
+
+	@media screen and (max-width: 1000px) {
+		li {
+			float: none;
+			text-align: center;
+			width: 100%;
+		}
+		li a:hover, .dropdown:hover .dropbutton {
+			width: 100%;
+		}
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			width: 100%;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
+		p {
+			position: absolute;
+			top: 110px;
+			left: 90px;
+			font-family: "Arial Narrow";
+			font-size: 150%;
+			background: -webkit-linear-gradient(tomato,DarkRed);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+		.column {
+			float: center;
+			width: 100%;
+		}
+		.container {
+			position: relative;
+			width: 100%;
+		}
+	}
+	

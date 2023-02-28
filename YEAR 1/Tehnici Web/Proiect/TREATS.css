@@ -1,0 +1,190 @@
+	body {
+		background-color:Bisque;
+	}
+	h1 {
+		font-family: "Century Schoolbook";
+		font-size: 480%;
+		text-align: center;
+		background: -webkit-linear-gradient(DarkSlateGray,black);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	h2 {
+		color:black; 
+		font-family: "Arial Narrow"; 
+		font-size: 22px;
+	}
+	h3 {
+		margin-top: 0px;
+		margin-bottom: 5px;
+		font-family: "Century Schoolbook";
+		font-size: 45px;
+		background: -webkit-linear-gradient(tomato,red);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	h4 {
+		color:DarkSlateGray;
+		font-family: "Century Schoolbook";
+		 font-size: 22px;
+	}
+	h5 {
+		color:Bisque;
+		font-family: "Century Schoolbook";
+		font-size: 115%;
+		text-align: center;
+	}
+	h6 {
+		color:Bisque;
+		font-family: "Century Schoolbook";
+		font-size: 80%;
+		text-align: center;
+	}
+	p {
+		position: absolute;
+		top: 110px;
+		left: 470px;
+		color: DarkSlateGray;
+		font-family: "Arial Narrow";
+		font-size:150%;
+	} 
+
+	a:link,a:visited {
+		text-decoration: none;
+		color:white;
+	}
+	a:hover {
+		color:tomato;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: DarkSlateGray;
+	}
+	li {
+		float: left;
+	}
+	li a, .dropbutton {
+		display: inline-block;
+		font-family: "Century Schoolbook";
+		font-size: 120%;
+		text-align: center;
+		padding: 20px 20px;
+		text-decoration: none;
+	}
+	li a:hover, .dropdown:hover .dropbutton {
+		background-color: #111;
+	}
+	li .dropdown {
+		display: inline-block;
+	}
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: bisque;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+	.dropdown-content a {
+		color: red;
+		padding: 20px 20px;
+		text-decoration: none;
+		display: block;
+		text-align: center;
+	}
+	.dropdown-content a:hover {
+		background-color: rgb(104,17,2);
+		color: bisque;
+	}
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+
+	* {box-sizing: border-box;}
+
+	.column {
+		float: left;
+		width: 50%;
+		padding: 70px;
+	}
+	.column2 {
+		float: left;
+		width: 25%;
+		padding: 5px;
+	}
+
+	/* Clearfix (clear floats) */.row::after {content: "";clear: both;display: table;}
+
+	.card {
+		background-color:white;
+		padding: 10px;
+		margin-top: 5px;
+	}
+	.footer {
+		background-color: DarkSlateGray;
+		padding: 7px;
+		text-align: center;
+		margin-top:70px;}
+	.fa {
+		padding: 20px;
+		font-size: 30px;
+		width: 70px;
+		text-align: center;
+		text-decoration: none;
+		margin: 5px 2px; 
+		border-radius: 50%;
+	}
+	.fa:hover {
+		opacity: 0.7;
+	}
+	.fa-facebook {
+		background: #3B5998;
+		color: white;
+	}
+	.fa-youtube {
+		background: #bb0000;
+		color: white;
+	}
+	.fa-instagram {
+		background: #125688;
+		color: white;
+	}
+	.fa-tumblr {
+		background: #2c4762;
+		color: white;
+	}
+
+	@media screen and (max-width: 1000px) {
+		li {
+			float: none;
+			text-align: center;
+			width: 100%;
+		}
+		li a:hover, .dropdown:hover .dropbutton {
+			width: 100%;
+		}
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			width: 100%;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
+		p {
+			left: 60px;
+		}
+		.column {
+			float: left;
+			width: 100%;
+			padding: 70px;
+		}
+		.column2 {
+			float: left;
+			width: 100%;
+			padding: 5px;
+		}
+	}
